@@ -1,7 +1,7 @@
 import pandas as pd
 import random
 import string
-import boto3
+#import boto3
 
 #Genero 20 advertiser_id activos y 5 inactivos
 
@@ -24,7 +24,7 @@ product_views = [[advertiser := random.choice(all_advertisers), random.choice(ad
 df_product_views = pd.DataFrame(product_views, columns=['advertiser_id', 'product_id', 'date'])
 df_product_views = df_product_views.sort_values('date').reset_index(drop=True)
 
-df_product_views.to_csv('product_views', index=False)
+df_product_views.to_csv('product_views.csv', index=False)
 
 #Genero lineas de vistas de ads
 
@@ -33,7 +33,7 @@ df_ads_views = pd.DataFrame(ads_views, columns=['advertiser_id', 'product_id', '
 df_ads_views = df_ads_views.sort_values('date').reset_index(drop=True)
 print(df_ads_views.head())
 
-df_ads_views.to_csv('ads_views', index=False)
+df_ads_views.to_csv('ads_views.csv', index=False)
 
 
 
