@@ -12,7 +12,8 @@ def create_datasets():
     inactive_advertisers = [''.join(random.choices(string.ascii_uppercase + string.digits, k = 20)) for _ in range(5)]
     all_advertisers = active_advertisers+inactive_advertisers
 
-    pd.DataFrame(active_advertisers, columns=['advertiser_id']).to_csv('advertiser_ids', index=False)
+    active_advertisers_df = pd.DataFrame(active_advertisers, columns=['advertiser_id'])
+    upload_pandas_to_s3(active_advertisers_df, 'advertiser_ids')
 
     advertisers_catalogs = {}
     for advertiser in all_advertisers:
@@ -30,7 +31,7 @@ def create_datasets():
     df_product_views = pd.DataFrame(product_views, columns=['advertiser_id', 'product_id', 'date'])
     df_product_views = df_product_views.sort_values('date').reset_index(drop=True)
 
-    upload_pandas_to_s3(df_product_views,'product_views')
+    upload_pandas_to_s3(df_product_views, 'product_views')
     df_product_views.to_csv('s3://recommendation-api-morales/df_product_views.csv', index=False)
 
     #Genero lineas de vistas de ads
@@ -42,7 +43,7 @@ def create_datasets():
     df_ads_views = pd.DataFrame(ads_views, columns=['advertiser_id', 'product_id', 'type', 'date'])
     df_ads_views = df_ads_views.sort_values('date').reset_index(drop=True)
 
-    upload_pandas_to_s3(df_ads_views,'ads_views')
+    upload_pandas_to_s3(df_ads_views, 'ads_views')
 
 
 
