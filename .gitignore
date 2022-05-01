@@ -135,3 +135,10 @@ dmypy.json
 # Exclude Mac files
 .DS_Store
 .idea
+
+#Airflow exclusions
+airflow-webserver.pid
+airflow.cfg
+airflow.db
+logs/
+webserver_config.py
