@@ -1,7 +1,7 @@
 import pandas as pd
 import random
 import string
-from aux_function import upload_pandas_to_s3
+from files.aux_function import upload_pandas_to_s3
 
 def create_datasets():
 
@@ -22,7 +22,11 @@ def create_datasets():
 
     #Genero lineas de vistas de producto
 
-    product_views = [[advertiser := random.choice(all_advertisers), random.choice(advertisers_catalogs[advertiser]), random.choice(possible_dates)] for _ in range(100_000)]
+    product_views = []
+    for _ in range(100_000):
+        advertiser_i = random.choice(all_advertisers)
+        product_views.append([advertiser_i, random.choice(advertisers_catalogs[advertiser]), random.choice(possible_dates)])
+
     df_product_views = pd.DataFrame(product_views, columns=['advertiser_id', 'product_id', 'date'])
     df_product_views = df_product_views.sort_values('date').reset_index(drop=True)
 
@@ -31,7 +35,10 @@ def create_datasets():
 
     #Genero lineas de vistas de ads
 
-    ads_views = [[advertiser := random.choice(all_advertisers), random.choice(advertisers_catalogs[advertiser]), random.choices(['impression', 'click'], weights=[99, 1])[0], random.choice(possible_dates)] for _ in range(100_000)]
+    ads_views = []
+    for _ in range(100_000):
+        advertiser_i = random.choice(all_advertisers)
+        ads_views.append([advertiser_i, random.choice(advertisers_catalogs[advertiser_i]), random.choices(['impression', 'click'], weights=[99, 1])[0], random.choice(possible_dates)])
     df_ads_views = pd.DataFrame(ads_views, columns=['advertiser_id', 'product_id', 'type', 'date'])
     df_ads_views = df_ads_views.sort_values('date').reset_index(drop=True)
 
