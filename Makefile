@@ -17,7 +17,7 @@ install:
 buid_webserver:
 	. airflow_env/bin/activate
 	airflow db init
-	airflow users create --role Admin --username admin --email admin --firstname admin --lastname admin --password admin
+	airflow users create --role Admin --username udesahackers --email udesahackers --firstname udesahackers --lastname udesahackers --password udesahackers
 	airflow webserver --port 8080
 
 .PHONY: start_scheduler
