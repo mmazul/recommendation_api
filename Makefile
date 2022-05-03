@@ -10,7 +10,7 @@ install_airflow:
 	virtualenv -p /usr/local/opt/python@3.7/Frameworks/Python.framework/Versions/3.7/bin/python3 airflow_env
 	( \
 		source airflow_env/bin/activate; \
-		pip install -r requierments.txt; \
+		pip install -r requirements.txt; \
 		export AIRFLOW_HOME=$(CURRENT_DIR); \
 		pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"; \
 		airflow db init; \
