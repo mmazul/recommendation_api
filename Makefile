@@ -7,7 +7,7 @@ CONSTRAINT_URL := https://raw.githubusercontent.com/apache/airflow/constraints-$
 
 .PHONY: install_airflow
 install_airflow:
-	virtualenv -p /usr/local/opt/python@3.7/Frameworks/Python.framework/Versions/3.7/bin/python3 .airflow_env
+	virtualenv -p /usr/local/opt/python@3.7/Frameworks/Python.framework/Versions/3.7/bin/python3 airflow_env
 	( \
 		source airflow_env/bin/activate; \
 		pip install -r requierments.txt; \
@@ -28,6 +28,6 @@ buid_webserver:
 start_scheduler:
 	( \
 		source airflow_env/bin/activate; \
-		airflow scheduler
+		airflow scheduler; \
 	)
 
