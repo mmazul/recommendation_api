@@ -16,6 +16,7 @@ install:
 .PHONY: buid_webserver
 buid_webserver:
 	. airflow_env/bin/activate
+	python3 --version
 	airflow db init
 	airflow users create --role Admin --username udesahackers --email udesahackers --firstname udesahackers --lastname udesahackers --password udesahackers
 	airflow webserver --port 8080
