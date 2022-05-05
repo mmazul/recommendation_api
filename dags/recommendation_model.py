@@ -5,6 +5,7 @@ from airflow.operators.python_operator import PythonOperator
 from dag_args import default_args
 from files.TopProduct import Top_products
 from files.TopCTR import TopCTR
+from files.dataset import create_datasets
 
 dag = DAG(
     'recommendation_models',
@@ -16,8 +17,8 @@ dag = DAG(
 )
 
 datasets_task = PythonOperator(
-    task_id='TopCTR',
-    python_callable=TopCTR,
+    task_id='datasets',
+    python_callable=create_datasets,
     dag=dag,
 )
 
