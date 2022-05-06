@@ -7,8 +7,8 @@ CONSTRAINT_URL := https://raw.githubusercontent.com/apache/airflow/constraints-$
 
 .ONESHELL:
 
-.PHONY: install_airflow
-install_airflow:
+.PHONY: airflow_install
+airflow_install:
 	#virtualenv -p /usr/local/opt/python@3.7/Frameworks/Python.framework/Versions/3.7/bin/python3 airflow_env
 	virtualenv airflow_env --python=python3
 	( \
@@ -16,6 +16,12 @@ install_airflow:
 		pip install -r requirements.txt; \
 		export AIRFLOW_HOME=$(CURRENT_DIR); \
 		pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"; \
+	)
+
+.PHONY: airflow_db
+airflow_db:
+	( \
+		source airflow_env/bin/activate; \
 		airflow db init; \
 		airflow users create --role Admin --username udesahackers --email udesahackers --firstname udesahackers --lastname udesahackers --password udesahackers; \
 	)
