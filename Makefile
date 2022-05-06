@@ -10,7 +10,7 @@ CONSTRAINT_URL := https://raw.githubusercontent.com/apache/airflow/constraints-$
 .PHONY: install_airflow
 install_airflow:
 	#virtualenv -p /usr/local/opt/python@3.7/Frameworks/Python.framework/Versions/3.7/bin/python3 airflow_env
-	virtualenv airflow_env_2 --python=python3
+	virtualenv airflow_env --python=python3
 	( \
 		source airflow_env/bin/activate; \
 		pip install -r requirements.txt; \
