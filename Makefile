@@ -24,13 +24,13 @@ install_airflow:
 buid_webserver:
 	( \
 		source airflow_env/bin/activate; \
-		airflow webserver --port 8080; \
+		airflow webserver --port 8080 -D; \
 	)
 
 .PHONY: start_scheduler
 start_scheduler:
 	( \
 		source airflow_env/bin/activate; \
-		airflow scheduler; \
+		airflow scheduler -D; \
 	)
 
