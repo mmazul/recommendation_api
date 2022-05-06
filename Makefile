@@ -1,13 +1,16 @@
 CURRENT_DIR = $(shell pwd)
-PYTHON_VERSION := 3.7
-AIRFLOW_VERSION := 2.2.4
+#PYTHON_VERSION := 3.7
+PYTHON_VERSION := 3.10
+#AIRFLOW_VERSION := 2.2.4
+AIRFLOW_VERSION := 2.3.0
 CONSTRAINT_URL := https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt
 
 .ONESHELL:
 
 .PHONY: install_airflow
 install_airflow:
-	virtualenv -p /usr/local/opt/python@3.7/Frameworks/Python.framework/Versions/3.7/bin/python3 airflow_env
+	#virtualenv -p /usr/local/opt/python@3.7/Frameworks/Python.framework/Versions/3.7/bin/python3 airflow_env
+	virtualenv airflow_env_2 --python=python3
 	( \
 		source airflow_env/bin/activate; \
 		pip install -r requirements.txt; \
