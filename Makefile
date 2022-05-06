@@ -20,7 +20,7 @@ install_airflow:
 		airflow users create --role Admin --username udesahackers --email udesahackers --firstname udesahackers --lastname udesahackers --password udesahackers; \
 	)
 
-.PHONY: buid_webserver
+.PHONY: build_webserver
 buid_webserver:
 	( \
 		source airflow_env/bin/activate; \
