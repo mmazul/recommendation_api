@@ -12,11 +12,13 @@ airflow_install:
 		source airflow_env/bin/activate; \
 		pip install -r requirements.txt; \
 		export AIRFLOW_HOME=$(CURRENT_DIR); \
+		export AIRFLOW__CORE__SQL_ALCHEMY_CONN="postgresql://postgres@localhost:5432/my_database?options=-csearch_path%3Dairflow"
+		export AIRFLOW__CORE__SQL_ALCHEMY_SCHEMA="airflow"
 		pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"; \
 	)
 
 .PHONY: airflow_launch
-airflow_db:
+airflow_launch:
 	( \
 		source airflow_env/bin/activate; \
 		export AIRFLOW_HOME=$(CURRENT_DIR); \
