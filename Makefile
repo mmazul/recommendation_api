@@ -13,17 +13,15 @@ airflow_install:
 		pip install -r requirements.txt; \
 		export AIRFLOW_HOME=$(CURRENT_DIR); \
 		pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"; \
-		airflow db init; \
-		airflow users create --role Admin --username udesahackers --email udesahackers --firstname udesahackers --lastname udesahackers --password udesahackers; \
-		airflow webserver --port 8080 -D; \
-		airflow scheduler -D; \
 	)
 
-.PHONY: airflow_relaunch
+.PHONY: airflow_launch
 airflow_db:
 	( \
 		source airflow_env/bin/activate; \
 		export AIRFLOW_HOME=$(CURRENT_DIR); \
+		airflow db init; \
+		airflow users create --role Admin --username udesahackers --email udesahackers --firstname udesahackers --lastname udesahackers --password udesahackers; \
 		airflow webserver --port 8080 -D; \
 		airflow scheduler -D; \
 	)
