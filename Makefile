@@ -15,6 +15,7 @@ airflow_launch:
 		export AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://$(PS_USER):$(PS_PASS)@$(PS_DB); \
 		export AIRFLOW__CORE__EXECUTOR=LocalExecutor; \
 		export AIRFLOW__CORE__PARALLELISM=2; \
+		export AIRFLOW__CORE__LOAD_EXAMPLES=False; \
 		export AIRFLOW__WEBSERVER__WORKERS=1; \
 		pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"; \
 		airflow db init; \
@@ -31,6 +32,7 @@ airflow_relaunch:
 		export AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://$(PS_USER):$(PS_PASS)@$(PS_DB); \
 		export AIRFLOW__CORE__EXECUTOR=LocalExecutor; \
 		export AIRFLOW__CORE__PARALLELISM=2; \
+		export AIRFLOW__CORE__LOAD_EXAMPLES=False; \
 		export AIRFLOW__WEBSERVER__WORKERS=1; \
 		airflow db init; \
 		airflow webserver --port 8080 -D; \
