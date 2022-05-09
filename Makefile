@@ -40,7 +40,7 @@ airflow_relaunch:
 
 .PHONY: airflow_relaunch_vars
 airflow_relaunch_vars:
-	@( \
+	( \
         export AIRFLOW_HOME=$(CURRENT_DIR); \
         export AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://$(PS_USER):$(PS_PASS)@$(PS_DB); \
         export AIRFLOW__CORE__EXECUTOR=LocalExecutor; \
