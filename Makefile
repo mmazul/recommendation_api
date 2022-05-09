@@ -22,9 +22,9 @@ airflow_launch:
 	pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
 	airflow db init
 	airflow users create --role Admin --username udesahackers --email udesahackers --firstname udesahackers --lastname udesahackers --password udesahackers
-	airflow webserver --port 8080 -D
-	sleep 60
-	airflow scheduler -D
+	#airflow webserver --port 8080 -D
+	#sleep 60
+	#airflow scheduler -D
 
 airflow_relaunch:
 	export AIRFLOW_HOME=$(CURRENT_DIR)
@@ -33,18 +33,6 @@ airflow_relaunch:
 	export AIRFLOW__CORE__PARALLELISM=2
 	export AIRFLOW__CORE__LOAD_EXAMPLES=False
 	export AIRFLOW__WEBSERVER__WORKERS=1
-	airflow webserver --port 8080 -D
-	sleep 60
-	airflow scheduler -D
-
-
-.PHONY: airflow_relaunch_vars
-airflow_relaunch_vars:
-	( \
-        export AIRFLOW_HOME=$(CURRENT_DIR); \
-        export AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://$(PS_USER):$(PS_PASS)@$(PS_DB); \
-        export AIRFLOW__CORE__EXECUTOR=LocalExecutor; \
-        export AIRFLOW__CORE__PARALLELISM=2; \
-        export AIRFLOW__CORE__LOAD_EXAMPLES=False; \
-        export AIRFLOW__WEBSERVER__WORKERS=1; \
-    )
+	#airflow webserver --port 8080 -D
+	#sleep 60
+	#airflow scheduler -D
