@@ -38,10 +38,13 @@ airflow_relaunch:
 	airflow scheduler -D
 
 
+.PHONY: airflow_relaunch_vars
 airflow_relaunch_vars:
-	export AIRFLOW_HOME=$(CURRENT_DIR)
-	export AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://$(PS_USER):$(PS_PASS)@$(PS_DB)
-	export AIRFLOW__CORE__EXECUTOR=LocalExecutor
-	export AIRFLOW__CORE__PARALLELISM=2
-	export AIRFLOW__CORE__LOAD_EXAMPLES=False
-	export AIRFLOW__WEBSERVER__WORKERS=1
+	@( \
+        export AIRFLOW_HOME=$(CURRENT_DIR); \
+        export AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://$(PS_USER):$(PS_PASS)@$(PS_DB); \
+        export AIRFLOW__CORE__EXECUTOR=LocalExecutor; \
+        export AIRFLOW__CORE__PARALLELISM=2; \
+        export AIRFLOW__CORE__LOAD_EXAMPLES=False; \
+        export AIRFLOW__WEBSERVER__WORKERS=1; \
+    )
