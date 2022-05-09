@@ -30,5 +30,6 @@ airflow_relaunch:
 	export AIRFLOW__WEBSERVER__WORKERS=1
 	airflow db init
 	airflow webserver --port 8080 -D
+	sleep 10
 	airflow scheduler -D
 
