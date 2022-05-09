@@ -19,6 +19,7 @@ airflow_launch:
 	airflow db init
 	airflow users create --role Admin --username udesahackers --email udesahackers --firstname udesahackers --lastname udesahackers --password udesahackers
 	airflow webserver --port 8080 -D
+	sleep 10
 	airflow scheduler -D
 
 airflow_relaunch:
