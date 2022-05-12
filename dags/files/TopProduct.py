@@ -18,7 +18,7 @@ def Top_products():
     #Cuento las views por producto-advertiser
     df_today = pd.DataFrame({'count' : df.groupby(['advertiser_id', 'product_id'])['product_id'].count().sort_values(ascending=False)}).reset_index()
     #Devuelvo los 20 productos mas vistos por advertiser
-    df_top20 = df_today.groupby('advertiser_id').apply(lambda x : x.sort_values(by = 'count', ascending = False).head(20).reset_index(drop = True)).droplevel(level=0)
+    df_top20 = df_today.groupby('advertiser_id').apply(lambda x : x.sort_values(by = 'count', ascending = False).head(20).reset_index(drop = True))#.droplevel(level=0)
     upload_pandas_to_s3(df_top20, 'top_products')
 
 
