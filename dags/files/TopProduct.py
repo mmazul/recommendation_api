@@ -14,7 +14,7 @@ def Top_products():
     #Leo los datos de las views
     df = download_s3_to_pandas('product_views')
     #Filtro por la fecha de hoyclea
-    df_today = df =  df[df['date'] == datetime.datetime.now().date()]
+    df = df[df['date'] == datetime.datetime.now().date()]
     #Cuento las views por producto-advertiser
     df_today = pd.DataFrame({'count' : df.groupby(['advertiser_id', 'product_id'])['product_id'].count().sort_values(ascending=False)}).reset_index()
     #Devuelvo los 20 productos mas vistos por advertiser
