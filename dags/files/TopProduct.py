@@ -7,12 +7,12 @@ Por cada advertirser activo debe devolvuelve los 20 (o menos) productos más vis
 
 import pandas as pd
 import datetime
-from files.aux_function import upload_pandas_to_s3
+from files.aux_function import download_s3_to_pandas
 
 
 def Top_products():
     #Leo los datos de las views
-    df = upload_pandas_to_s3('product_views')
+    df = download_s3_to_pandas('product_views')
     #Filtro por la fecha de hoyclea
     df_today = df =  df[df['date'] == datetime.datetime.now().date()]
     #Cuento las views por producto-advertiser
