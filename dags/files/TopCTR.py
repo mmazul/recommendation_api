@@ -1,9 +1,8 @@
 import pandas as pd
-from files.aux_function import upload_pandas_to_s3
-
+from files.aux_function import download_s3_to_pandas, upload_pandas_to_s3
 
 def TopCTR():
-    df_ads_views = upload_pandas_to_s3('ads_views')
+    df_ads_views = download_s3_to_pandas('ads_views')
     all_groups = df_ads_views.groupby(['advertiser_id', 'product_id', 'type'], as_index=False).count()
     final = []
     for adv in df_ads_views['advertiser_id'].unique():
@@ -23,4 +22,4 @@ def TopCTR():
         for element in top_20:
             final.append([adv, element[0], element[1]])
     final = pd.DataFrame(final, columns=['advertiser_id','product_id','ctr'])
-    return final
+    upload_pandas_to_s3(final, 'top_ctr')

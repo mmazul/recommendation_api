@@ -13,7 +13,8 @@ dag = DAG(
     description='How to use the Python Operator?',
     schedule_interval='@daily',
     catchup=True,
-    max_active_runs=1
+    max_active_runs=1,
+    concurrency=1
 )
 
 datasets_task = PythonOperator(
