@@ -7,7 +7,7 @@ Por cada advertirser activo debe devolvuelve los 20 (o menos) productos más vis
 
 import pandas as pd
 import datetime
-from files.aux_function import download_s3_to_pandas
+from files.aux_function import download_s3_to_pandas, upload_pandas_to_s3
 
 
 def Top_products():

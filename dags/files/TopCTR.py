@@ -1,6 +1,5 @@
 import pandas as pd
-from files.aux_function import download_s3_to_pandas
-
+from files.aux_function import download_s3_to_pandas, upload_pandas_to_s3
 
 def TopCTR():
     df_ads_views = download_s3_to_pandas('ads_views')
@@ -23,4 +22,4 @@ def TopCTR():
         for element in top_20:
             final.append([adv, element[0], element[1]])
     final = pd.DataFrame(final, columns=['advertiser_id','product_id','ctr'])
-    return final
+    upload_pandas_to_s3(final, 'top_ctr')
