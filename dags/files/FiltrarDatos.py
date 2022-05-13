@@ -3,7 +3,8 @@ import random
 import string
 from files.aux_function import upload_pandas_to_s3
 
-def FiltrarDatos():
+def FiltrarDatos(**kwargs):
+    date = kwargs['date']
 
     #Genero 20 advertiser_id activos y 5 inactivos
 
@@ -13,7 +14,7 @@ def FiltrarDatos():
     all_advertisers = active_advertisers+inactive_advertisers
 
     active_advertisers_df = pd.DataFrame(active_advertisers, columns=['advertiser_id'])
-    upload_pandas_to_s3(active_advertisers_df, 'advertiser_ids')
+    upload_pandas_to_s3(active_advertisers_df, f'advertiser_ids_{date}')
 
     advertisers_catalogs = {}
     for advertiser in all_advertisers:
@@ -31,7 +32,7 @@ def FiltrarDatos():
     df_product_views = pd.DataFrame(product_views, columns=['advertiser_id', 'product_id', 'date'])
     df_product_views = df_product_views.sort_values('date').reset_index(drop=True)
 
-    upload_pandas_to_s3(df_product_views, 'product_views')
+    upload_pandas_to_s3(df_product_views, f'product_views_{date}')
     df_product_views.to_csv('s3://recommendation-api-morales/df_product_views.csv', index=False)
 
     #Genero lineas de vistas de ads
@@ -43,7 +44,7 @@ def FiltrarDatos():
     df_ads_views = pd.DataFrame(ads_views, columns=['advertiser_id', 'product_id', 'type', 'date'])
     df_ads_views = df_ads_views.sort_values('date').reset_index(drop=True)
 
-    upload_pandas_to_s3(df_ads_views, 'ads_views')
+    upload_pandas_to_s3(df_ads_views, f'ads_views_{date}')
 
 
 
