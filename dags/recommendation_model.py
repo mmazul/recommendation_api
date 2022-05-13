@@ -3,9 +3,9 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from dag_args import default_args
-from files.TopProduct import Top_products
+from files.TopProduct import TopProducts
 from files.TopCTR import TopCTR
-from files.dataset import create_datasets
+from files.FiltrarDatos import FiltrarDatos
 
 dag = DAG(
     'recommendation_models',
@@ -17,23 +17,23 @@ dag = DAG(
     concurrency=1
 )
 
-datasets_task = PythonOperator(
-    task_id='datasets',
+filtrardatos_task = PythonOperator(
+    task_id='FiltrarDatos',
     python_callable=create_datasets,
     dag=dag,
 )
 
-model1_task = PythonOperator(
+topctr_task = PythonOperator(
     task_id='TopCTR',
     python_callable=TopCTR,
     dag=dag,
 )
 
-model2_task = PythonOperator(
+topproduct_task = PythonOperator(
     task_id='Top_products',
-    python_callable=Top_products,
+    python_callable=TopProducts,
     dag=dag,
 )
 
-datasets_task >> model1_task
-datasets_task >> model2_task
+filtrardatos_task >> topctr_task
+filtrardatos_task >> topproduct_task

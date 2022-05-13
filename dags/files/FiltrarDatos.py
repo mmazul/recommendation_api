@@ -3,7 +3,7 @@ import random
 import string
 from files.aux_function import upload_pandas_to_s3
 
-def create_datasets():
+def FiltrarDatos():
 
     #Genero 20 advertiser_id activos y 5 inactivos
 

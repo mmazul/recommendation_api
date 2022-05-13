@@ -10,7 +10,7 @@ import datetime
 from files.aux_function import download_s3_to_pandas, upload_pandas_to_s3
 
 
-def Top_products():
+def TopProducts():
     #Leo los datos de las views
     df = download_s3_to_pandas('product_views')
     #Filtro por la fecha de hoyclea
