@@ -4,9 +4,9 @@ from sqlalchemy.types import String, Float, Integer
 
 def DBWriting(**kwargs):
     date = kwargs['date']
-    top_products_df = download_s3_to_pandas('top_products')
+    top_products_df = download_s3_to_pandas(f'top_products_{date}')
     top_products_df['date'] = date
-    top_ctr_df = download_s3_to_pandas('top_ctr')
+    top_ctr_df = download_s3_to_pandas(f'top_ctr_{date}')
     top_ctr_df['date'] = date
     engine = engine_ps
 
