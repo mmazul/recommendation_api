@@ -11,16 +11,19 @@ def DBWriting(**kwargs):
     engine = engine_ps()
 
     with engine.connect() as con:
-        con.execute(f"""BEGIN; 
-        DELETE FROM top_product WHERE date='{date}'; 
-        EXCEPTION WHEN OTHERS THEN 
-        NULL; 
-        END;""")
-        con.execute(f"""BEGIN; 
-        DELETE FROM top_ctr WHERE date='{date}'; 
-        EXCEPTION WHEN OTHERS THEN 
-        NULL; 
-        END;""")
+        top_product_exist = con.execute(f"""SELECT EXISTS (SELECT * FROM top_product)""")
+        print(top_product_exist)
+        if top_product_exist[0].items()[1]:
+            con.execute(f"""BEGIN; 
+            DELETE FROM top_product WHERE date='{date}'; 
+            COMMIT;""")
+
+        top_ctr_exist = con.execute(f"""SELECT EXISTS (SELECT * FROM top_ctr)""")
+        print(top_ctr_exist)
+        if top_ctr_exist[0].items()[1]:
+            con.execute(f"""BEGIN; 
+                    DELETE FROM top_ctr WHERE date='{date}'; 
+                    COMMIT;""")
 
     top_products_df.to_sql('top_product', index=False, con=engine, if_exists='append',
                            dtype={"advertiser_id": String(),
