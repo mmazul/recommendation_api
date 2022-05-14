@@ -13,10 +13,14 @@ def DBWriting(**kwargs):
     with engine.connect() as con:
         con.execute(f"""BEGIN; 
         DELETE FROM top_product WHERE date='{date}'; 
-        COMMIT;""")
+        EXCEPTION WHEN OTHERS THEN 
+        NULL; 
+        END;""")
         con.execute(f"""BEGIN; 
         DELETE FROM top_ctr WHERE date='{date}'; 
-        COMMIT;""")
+        EXCEPTION WHEN OTHERS THEN 
+        NULL; 
+        END;""")
 
     top_products_df.to_sql('top_product', index=False, con=engine, if_exists='append',
                            dtype={"advertiser_id": String(),
