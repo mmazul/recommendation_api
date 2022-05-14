@@ -26,7 +26,7 @@ def FiltrarDatos(**kwargs):
         for advertiser in all_advertisers:
             advertisers_catalogs[advertiser] = [''.join(random.choices(string.ascii_lowercase + string.digits, k = 6)) for _ in range(100)]
         advertisers_catalogs_df = pd.DataFrame.from_dict(advertisers_catalogs, orient='index')
-        upload_pandas_to_s3(advertisers_catalogs_df, 'advertisers_catalogs')
+        upload_pandas_to_s3(advertisers_catalogs_df, 'advertisers_catalogs', index=True)
 
     #Genero lineas de vistas de producto
 
@@ -39,7 +39,6 @@ def FiltrarDatos(**kwargs):
     df_product_views = df_product_views.sort_values('date').reset_index(drop=True)
 
     upload_pandas_to_s3(df_product_views, f'product_views_{date}')
-    df_product_views.to_csv('s3://recommendation-api-morales/df_product_views.csv', index=False)
 
     #Genero lineas de vistas de ads
 

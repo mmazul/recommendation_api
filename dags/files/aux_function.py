@@ -18,9 +18,11 @@ def engine_ps():
 def upload_pandas_to_s3(dataframe,
                         name: str,
                         bucket: str = 'recommendation-api-morales',
-                        extension: str = 'csv'):
+                        extension: str = 'csv',
+                        index: bool = False,
+                        ):
     print(f'Upload ---> s3://{bucket}/{name}.{extension}')
-    dataframe.to_csv(f's3://{bucket}/{name}.{extension}', index=False)
+    dataframe.to_csv(f's3://{bucket}/{name}.{extension}', index=index)
     print(f'Upload ---> {len(dataframe)}')
 
 def download_s3_to_pandas(name: str,
