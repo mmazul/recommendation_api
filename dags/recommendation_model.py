@@ -11,7 +11,6 @@ from files.DBWriting import DBWriting
 dag = DAG(
     'recommendation_models',
     default_args=default_args,
-    description='How to use the Python Operator?',
     schedule_interval='@daily',
     catchup=True,
     max_active_runs=1,
