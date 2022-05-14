@@ -5,7 +5,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "recomendatApi"}
 
 @app.get("/recomendations/{adv}/{modelo}")
 async def advertiser(adv: int, modelo: str):
