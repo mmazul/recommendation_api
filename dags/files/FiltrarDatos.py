@@ -13,6 +13,7 @@ def FiltrarDatos(**kwargs):
         all_advertisers = all_advertisers_df.advertiser_id.tolist()
         advertisers_catalogs = {advertiser: advertisers_catalog_df['data'][n]
                                 for n, advertiser in enumerate(advertisers_catalog_df['index'])}
+        print(advertisers_catalogs)
     except:
         random.seed(4)
         active_advertisers = [''.join(random.choices(string.ascii_uppercase + string.digits, k = 20)) for _ in range(20)]
