@@ -13,16 +13,18 @@ def DBWriting(**kwargs):
     with engine.connect() as con:
         top_product_exist = con.execute(f"""SELECT EXISTS (
         SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename  = 'top_product');""")
-        print(f"top_product_exist {str(top_product_exist.fetchone())}")
-        if top_product_exist.fetchone()[0]:
+        top_product_exist_bool = top_product_exist.fetchone()[0]
+        print(f"top_product_exist {str(top_product_exist_bool)}")
+        if top_product_exist_bool:
             con.execute(f"""BEGIN; 
             DELETE FROM top_product WHERE date='{date}'; 
             COMMIT;""")
 
         top_ctr_exist = con.execute(f"""SELECT EXISTS (
         SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename  = 'top_ctr');""")
-        print(f"top_product_exist {str(top_ctr_exist.fetchone())}")
-        if top_ctr_exist.fetchone()[0]:
+        top_ctr_exist_bool = top_ctr_exist.fetchone()[0]
+        print(f"top_ctr_exist {str(top_ctr_exist_bool)}")
+        if top_ctr_exist_bool:
             con.execute(f"""BEGIN; 
                     DELETE FROM top_ctr WHERE date='{date}'; 
                     COMMIT;""")
