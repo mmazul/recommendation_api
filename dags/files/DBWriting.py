@@ -12,14 +12,14 @@ def DBWriting(**kwargs):
 
     with engine.connect() as con:
         top_product_exist = con.execute(f"""SELECT EXISTS (SELECT * FROM top_product)""")
-        print(top_product_exist)
+        print(f"top_product_exist {str(top_product_exist)}")
         if top_product_exist[0].items()[1]:
             con.execute(f"""BEGIN; 
             DELETE FROM top_product WHERE date='{date}'; 
             COMMIT;""")
 
         top_ctr_exist = con.execute(f"""SELECT EXISTS (SELECT * FROM top_ctr)""")
-        print(top_ctr_exist)
+        print(f"top_product_exist {str(top_ctr_exist)}")
         if top_ctr_exist[0].items()[1]:
             con.execute(f"""BEGIN; 
                     DELETE FROM top_ctr WHERE date='{date}'; 
