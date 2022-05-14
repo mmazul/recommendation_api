@@ -8,7 +8,7 @@ def DBWriting(**kwargs):
     top_products_df['date'] = date
     top_ctr_df = download_s3_to_pandas(f'top_ctr_{date}')
     top_ctr_df['date'] = date
-    engine = engine_ps
+    engine = engine_ps()
 
     with engine.connect() as con:
         con.execute(f"""BEGIN 
