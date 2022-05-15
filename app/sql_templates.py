@@ -29,3 +29,24 @@ WHERE
     AND date<={{ end_date }}
     AND date>{{ start_date }}
 """
+
+advertisers_count_last_n_days = """
+SELECT count(distinct advertiser_id)  as n
+FROM (
+    SELECT 
+       advertiser_id
+    FROM 
+        top_product
+    WHERE 
+        date<={{ end_date }}
+        AND date>{{ start_date }}
+    UNION ALL
+    SELECT 
+        advertiser_id
+    FROM 
+        top_ctr
+    WHERE 
+        date<={{ end_date }}
+        AND date>{{ start_date }}
+) AS a
+"""

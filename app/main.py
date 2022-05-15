@@ -1,11 +1,15 @@
 from fastapi import FastAPI
 import numpy as np
-from aux_function import engine_ps
+from app.aux_function import engine_ps
 from datetime import date, timedelta
-from sql_templates import (
+from app.sql_templates import (
     recommendation_day_adv_model,
-    recommendation_last_n_day_adv
+    recommendation_last_n_day_adv,
+    advertisers_count_last_n_days
 )
+from jinja2.utils import markupsafe
+markupsafe.Markup()
+#Markup('')
 from jinjasql import JinjaSql
 
 app = FastAPI()
@@ -49,10 +53,21 @@ async def advertiser(adv: str, model: str):
 
 @app.get("/stats")
 async def stats():
-    return {"Estadisticas: ",
-            "Cantidad de advertisers",
-            "Advertisers que más varían sus recomendaciones por día",
-            "Estadísticas de coincidencia entre ambos modelos para los diferentes advs"}
+    try:
+        with engine.connect() as con:
+            params = {
+                'start_date': str(date.today()),
+                'end_date': str(date.today() - timedelta(days=7)),
+            }
+            query, bind_params = j.prepare_query(advertisers_count_last_n_days, params)
+            adv_exe = con.execute(query, bind_params)
+            advertisers = adv_exe.fetchone()[0]
+
+        return {"Cantidad de advertisers": advertisers}
+
+    except ValueError:
+        print(ValueError)
+
 
 @app.get("/history/{adv}")
 async def history(adv: int):
