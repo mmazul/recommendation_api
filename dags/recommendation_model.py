@@ -3,37 +3,47 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from dag_args import default_args
-from files.TopProduct import Top_products
+from files.TopProduct import TopProducts
 from files.TopCTR import TopCTR
-from files.dataset import create_datasets
+from files.FiltrarDatos import FiltrarDatos
+from files.DBWriting import DBWriting
 
 dag = DAG(
     'recommendation_models',
     default_args=default_args,
-    description='How to use the Python Operator?',
     schedule_interval='@daily',
     catchup=True,
     max_active_runs=1,
     concurrency=1
 )
 
-datasets_task = PythonOperator(
-    task_id='datasets',
-    python_callable=create_datasets,
+filtrardatos_task = PythonOperator(
+    task_id='FiltrarDatos',
+    python_callable=FiltrarDatos,
     dag=dag,
+    op_kwargs={'date': '{{ ds }}'}
 )
 
-model1_task = PythonOperator(
+topctr_task = PythonOperator(
     task_id='TopCTR',
     python_callable=TopCTR,
     dag=dag,
+    op_kwargs={'date': '{{ ds }}'}
 )
 
-model2_task = PythonOperator(
-    task_id='Top_products',
-    python_callable=Top_products,
+topproduct_task = PythonOperator(
+    task_id='TopProducts',
+    python_callable=TopProducts,
     dag=dag,
+    op_kwargs={'date': '{{ ds }}'}
 )
 
-datasets_task >> model1_task
-datasets_task >> model2_task
+dbwriting_task = PythonOperator(
+    task_id='DBWriting',
+    python_callable=DBWriting,
+    dag=dag,
+    op_kwargs={'date': '{{ ds }}'}
+)
+
+filtrardatos_task >> topctr_task >> dbwriting_task
+filtrardatos_task >> topproduct_task >> dbwriting_task
