@@ -9,7 +9,7 @@ def FiltrarDatos(**kwargs):
     #Genero 20 advertiser_id activos y 5 inactivos por unica vez
     try:
         all_advertisers_df = download_s3_to_pandas('all_advertisers')
-        advertisers_catalog_df = download_s3_to_pandas('advertisers_catalogs').to_dict('split')
+        advertisers_catalog_df = download_s3_to_pandas('advertisers_catalogs', index_col=0).to_dict('split')
         all_advertisers = all_advertisers_df.advertiser_id.tolist()
         advertisers_catalogs = {advertiser: advertisers_catalog_df['data'][n]
                                 for n, advertiser in enumerate(advertisers_catalog_df['index'])}
