@@ -27,8 +27,9 @@ def upload_pandas_to_s3(dataframe,
 
 def download_s3_to_pandas(name: str,
                           bucket: str = 'recommendation-api-morales',
-                          extension: str = 'csv') -> pd.DataFrame:
+                          extension: str = 'csv',
+                          index_col=None) -> pd.DataFrame:
     print(f'Download --->s3://{bucket}/{name}.{extension}')
-    df = pd.read_csv(f's3://{bucket}/{name}.{extension}')
+    df = pd.read_csv(f's3://{bucket}/{name}.{extension}', index_col=index_col)
     print(f'Download ---> {len(df)}')
     return df
