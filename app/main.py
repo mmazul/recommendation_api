@@ -7,15 +7,9 @@ from app.sql_templates import (
     recommendation_last_n_day_adv,
     advertisers_count_last_n_days
 )
-from jinja2.utils import markupsafe
-markupsafe.Markup()
-#Markup('')
-from jinjasql import JinjaSql
 
 app = FastAPI()
-
 engine = engine_ps()
-j = JinjaSql()
 
 @app.get("/")
 async def root():
@@ -36,10 +30,9 @@ async def advertiser(adv: str, model: str):
             'adv': adv,
             'today': str(date.today())
         }
-        query, bind_params = j.prepare_query(recommendation_day_adv_model, params)
 
         with engine.connect() as con:
-            recommendations_exe = con.execute(query, bind_params)
+            recommendations_exe = con.execute(recommendation_day_adv_model.format(**params))
             recommendations_raw = recommendations_exe.fetchall()
             recommendations_list = [i[0] for i in recommendations_raw]
 
@@ -59,8 +52,7 @@ async def stats():
                 'start_date': str(date.today()),
                 'end_date': str(date.today() - timedelta(days=7)),
             }
-            query, bind_params = j.prepare_query(advertisers_count_last_n_days, params)
-            adv_exe = con.execute(query, bind_params)
+            adv_exe = con.execute(advertisers_count_last_n_days.format(**params))
             advertisers = adv_exe.fetchone()[0]
 
         return {"Cantidad de advertisers": advertisers}
@@ -78,8 +70,7 @@ async def history(adv: int):
                 'start_date': str(date.today()),
                 'end_date': str(date.today() - timedelta(days=7)),
             }
-            query, bind_params = j.prepare_query(recommendation_last_n_day_adv, params)
-            recommendations_exe = con.execute(query, bind_params)
+            recommendations_exe = con.execute(recommendation_last_n_day_adv.format(**params))
             recommendations_raw = recommendations_exe.fetchall()
             recommendations_list = list(set([i[0] for i in recommendations_raw]))
 
