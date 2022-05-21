@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-import numpy as np
 from app.aux_function import engine_ps
 from datetime import date, timedelta
 from app.sql_templates import (
@@ -9,7 +8,6 @@ from app.sql_templates import (
 )
 
 app = FastAPI()
-engine = engine_ps()
 
 @app.get("/")
 async def root():
@@ -18,6 +16,7 @@ async def root():
 @app.get("/recommendations/{adv}/{modelo}")
 async def advertiser(adv: str, model: str):
     try:
+        engine = engine_ps()
         if model == "TopProduct":
             table = 'top_product'
         elif model == "TopCTR":
@@ -28,7 +27,7 @@ async def advertiser(adv: str, model: str):
         params = {
             'table': table,
             'adv': adv,
-            'today': str(date.today())
+            'today': str(date.today() - timedelta(days=1))
         }
 
         with engine.connect() as con:
@@ -47,10 +46,11 @@ async def advertiser(adv: str, model: str):
 @app.get("/stats")
 async def stats():
     try:
+        engine = engine_ps()
         with engine.connect() as con:
             params = {
-                'start_date': str(date.today()),
-                'end_date': str(date.today() - timedelta(days=7)),
+                'start_date': str(date.today() - timedelta(days=8)),
+                'end_date': str(date.today() - timedelta(days=1)),
             }
             adv_exe = con.execute(advertisers_count_last_n_days.format(**params))
             advertisers = adv_exe.fetchone()[0]
@@ -64,11 +64,12 @@ async def stats():
 @app.get("/history/{adv}")
 async def history(adv: int):
     try:
+        engine = engine_ps()
         with engine.connect() as con:
             params = {
                 'adv': adv,
-                'start_date': str(date.today()),
-                'end_date': str(date.today() - timedelta(days=7)),
+                'start_date': str(date.today() - timedelta(days=8)),
+                'end_date': str(date.today() - timedelta(days=1)),
             }
             recommendations_exe = con.execute(recommendation_last_n_day_adv.format(**params))
             recommendations_raw = recommendations_exe.fetchall()
