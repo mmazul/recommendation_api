@@ -4,7 +4,9 @@ from datetime import date, timedelta
 from app.sql_templates import (
     recommendation_day_adv_model,
     recommendation_last_n_day_adv,
-    advertisers_count_last_n_days
+    advertisers_count_last_n_days,
+    avg_distinct_product_last_n_days,
+    stats_coincidences_last_n_days
 )
 
 app = FastAPI()
@@ -54,15 +56,22 @@ async def stats():
             }
             adv_exe = con.execute(advertisers_count_last_n_days.format(**params))
             advertisers = adv_exe.fetchone()[0]
+            distinct_product_exe = con.execute(avg_distinct_product_last_n_days.format(**params))
+            distinct_product = distinct_product_exe.fetchone()[0]
+            coincidences_exe = con.execute(stats_coincidences_last_n_days.format(**params))
+            coincidences = coincidences_exe.fetchone()[0]
 
-        return {"Cantidad de advertisers": advertisers}
+        return {"Cantidad de advertisers": advertisers,
+                "Promedio de product ids distintos por advertiser": distinct_product,
+                "Promedio del ratio de coincidencias de products en ambos modelos": coincidences,
+                }
 
     except ValueError:
         print(ValueError)
 
 
 @app.get("/history/{adv}")
-async def history(adv: int):
+async def history(adv: str):
     try:
         engine = engine_ps()
         with engine.connect() as con:

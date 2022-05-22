@@ -3,6 +3,7 @@
 import pandas as pd
 from decouple import config
 from sqlalchemy import create_engine
+import os
 
 def engine_ps():
     username = config('PS_USER')
