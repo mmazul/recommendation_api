@@ -142,4 +142,6 @@ airflow.cfg
 airflow.db
 logs/
 webserver_config.py
+
+#EC2
 *.pem
